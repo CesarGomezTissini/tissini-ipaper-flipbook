@@ -1,15 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
+    <!-- Start of async iPaper Flipbook API script -->
+    <script>
+      ;(function(i, P, a, p, e, r) {
+        if (i.getElementById((a = a + '-' + e))) return
+        r = i.querySelector(P).parentNode.appendChild(i.createElement(P))
+        r.id = a
+        r.async = 1
+        r.src = p + '/' + e + '.js'
+      })(
+        document,
+        'script',
+        'ipaper-flipbook-api',
+        'https://cdn.ipaper.io/api',
+        'MTY6MzhhZjQwMDMtOTk1Zi00NzQ5LTlkOGItMTQ4ODRiN2RmMTUz'
+      )
+    </script>
+    <!-- End of async iPaper Flipbook API script -->
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong
+        >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
+        properly without JavaScript enabled. Please enable it to
+        continue.</strong
+      >
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
