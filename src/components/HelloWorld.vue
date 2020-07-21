@@ -1,22 +1,31 @@
 <template>
-  <v-container fluid>
-    <v-row class="text-center">
+  <v-container pa-0>
+    <v-row>
       <v-col cols="12">
-        <div class="iframe-wrapper">
+        <v-row align="center" justify="center">
           <div class="iframe-loading" v-if="iframeLoading">
             iframe loading...
           </div>
-          <vue-friendly-iframe
-            ref="frame"
-            :style="`display: ${iframeLoading ? 'none' : 'block'}`"
-            src="https://viewer.ipaper.io/tissini/catalogo-textil-primavera-verano-2020/#/"
-            @load="onLoad"
-            @iframe-load="onIframeLoad"
-            frameborder="0"
-            gesture="media"
-            allowfullscreen
-          ></vue-friendly-iframe>
-        </div>
+          <div style="width:100%">
+            <iframe
+              style="width: 100%; height: 640px"
+              ref="frame"
+              :style="`display: ${iframeLoading ? 'none' : 'block'}`"
+              src="https://viewer.ipaper.io/tissini/catalogo-textil-primavera-verano-2020/#/"
+              @load="onLoad"
+              @iframe-load="onIframeLoad"
+              @onSpreadChange="onAnyAction"
+              @onPageElementClick="itemDetail"
+              @onBasketClick="onOpenBasket"
+              frameborder="0"
+              allow="fullscreen;autoplay"
+              allowfullscreen
+              webkitallowfullscreen
+              mozallowfullscreen
+            >
+            </iframe>
+          </div>
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -30,37 +39,27 @@ export default {
     iframeLoading: true
   }),
   methods: {
+    onAnyAction: function($event) {},
+    start: function() {
+      iPaperAPI.goToPage(1)
+    },
     onLoad: function() {
       console.log('iframe loaded')
+      iPaperAPI.updateEventSettings({
+        onBasketClick: { preventDefault: true },
+        onPageElementClick: { preventDefault: true }
+      })
       this.iframeLoading = false
     },
     onIframeLoad: function() {
       console.log('iframe loaded')
+    },
+    itemDetail: function($event) {
+      console.log($event)
+    },
+    onOpenBasket: function() {
+      alert('Hello World!')
     }
   }
 }
 </script>
-
-<style>
-.iframe-wrapper {
-  border: 1px solid gray;
-}
-.iframe-wrapper .vue-friendly-iframe {
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  position: absolute;
-}
-.iframe-wrapper .vue-friendly-iframe iframe {
-  height: 100%;
-  width: 100%;
-}
-
-@media only screen and (max-width: 600px) {
-  .appWrap .l-app .l-app__body #catalogWrap {
-    padding-top: 0 !important;
-    top: 0 !important;
-  }
-}
-</style>
