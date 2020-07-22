@@ -54,7 +54,8 @@ export default {
       console.log('iframe loaded')
     },
     itemDetail: function($event) {
-      console.log($event)
+      // console.log('details')
+      console.log($event.detail.data.productId)
     },
     onOpenBasket: function() {
       alert('Hello World!')
