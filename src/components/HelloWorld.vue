@@ -1,6 +1,16 @@
 <template>
   <v-container pa-0>
-    <InfoDialog v-model="infoDialog" :product="product" />
+    <v-snackbar :timeout="3000" color="primary" top v-model="snackbar">
+      <div style="text-align: center;">
+        <v-icon dark right>mdi-checkbox-marked-circle</v-icon>
+        Producto agregado
+      </div>
+    </v-snackbar>
+    <InfoDialog
+      v-model="infoDialog"
+      :product="product"
+      @showSnackbar="showSnackbar"
+    />
     <v-row>
       <v-col cols="12">
         <v-row align="center" justify="center">
@@ -46,11 +56,16 @@ export default {
     infoDialog: false,
     bodyMessage: '',
     product: null,
-    page: null
+    page: null,
+    snackbar: false
   }),
   components: {
     InfoDialog
   },
+  // created() {
+  //   // window.addEventListener('resize', this.getScreenSize)
+  //   this.getScreenSize()
+  // },
   methods: {
     onAnyAction: function($event) {},
     start: function() {
@@ -91,7 +106,16 @@ export default {
     },
     searchPage() {
       iPaperAPI.goToPage(+this.page)
+    },
+    showSnackbar() {
+      this.snackbar = true
     }
+    // getScreenSize() {
+    //   let widthScreen = window.innerWidth
+    //   console.log(widthScreen)
+    // }
   }
 }
 </script>
+
+<style scoped></style>
