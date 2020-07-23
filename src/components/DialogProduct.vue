@@ -12,9 +12,6 @@
         <h1>no hay</h1>
       </v-card>
       <v-card v-else>
-        <!-- <v-card-title class="subheading pink lighten-2" primary-title>
-          <span class="white--text">{{ titleMessage }}</span>
-        </v-card-title> -->
         <v-img
           height="350"
           :src="'https://api.tissini.app' + productDetail.images[0].url"
@@ -24,19 +21,16 @@
               <v-btn fab dark small color="primary" @click.stop="closeDialog">
                 <v-icon dark>mdi-arrow-left</v-icon>
               </v-btn>
-              <!-- <v-icon>fas fa-lock</v-icon> -->
-              <!-- <div class="subheading">Jonathan Lee</div>
-              <div class="body-1">heyfromjonathan@gmail.com</div> -->
             </v-col>
           </v-row>
         </v-img>
         <v-divider></v-divider>
         <v-card-title>
           <v-row no-gutters>
-            <v-col :xs="9" :sm="9">
+            <v-col :cols="8" :sm="9">
               {{ productDetail.name }}
             </v-col>
-            <v-col style="text-align: right;" :xs="3" :sm="3">
+            <v-col :cols="4" style="text-align: right;" :sm="3">
               ${{ price }}
             </v-col>
           </v-row>
@@ -46,23 +40,21 @@
           <v-chip-group
             v-model="variant"
             active-class="pink lighten-1 white--text"
-            column
           >
             <v-chip
               v-for="(variant, index) in productDetail.variants"
               :key="index"
               :disabled="!Boolean(variant.quantity)"
-              small
             >
               {{ variant.size }}
             </v-chip>
           </v-chip-group>
           <v-select
+            v-if="quantities.length > 0"
             label="Cantidad"
             v-model="quantitySelected"
             :items="quantities"
             required
-            :disabled="!quantities.length > 0"
             color="primary"
           ></v-select>
           <v-footer fixed v-if="quantities.length > 0">
@@ -105,6 +97,7 @@ export default {
     variant(value) {
       if (value || value === 0) {
         this.variantSelected = this.productDetail.variants[value]
+        this.price = this.variantSelected.price
         this.quantities = Array.from(
           {
             length:
@@ -133,8 +126,12 @@ export default {
     productDetail() {
       return this.product
     },
-    price() {
-      return this.productDetail.price
+    price: {
+      //return this.productDetail.price
+      get() {
+        return this.productDetail.price
+      },
+      set(value) {}
     }
   },
   methods: {
@@ -159,15 +156,16 @@ export default {
         variants: this.productDetail.variants,
         product_id: this.productDetail.id
       }
-      let cart = localStorage.getItem('cart')
+      let cart = JSON.parse(localStorage.getItem('cart'))
       // console.log(product)
       // console.log(cart)
       if (cart) {
         cart.push(product)
-        localStorage.setItem('cart', cart)
+        localStorage.setItem('cart', JSON.stringify(cart))
       } else {
-        localStorage.setItem('cart', [product])
+        localStorage.setItem('cart', JSON.stringify([product]))
       }
+      this.closeDialog()
     },
     closeDialog: function() {
       this.infoDialog = false

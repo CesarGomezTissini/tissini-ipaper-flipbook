@@ -26,6 +26,10 @@
           </iframe>
           <!-- </div> -->
         </v-row>
+        <v-btn @click="searchPage">
+          Página
+        </v-btn>
+        <v-text-field v-model="page" label="Pagina"></v-text-field>
       </v-col>
     </v-row>
   </v-container>
@@ -41,7 +45,8 @@ export default {
     iframeLoading: true,
     infoDialog: false,
     bodyMessage: '',
-    product: null
+    product: null,
+    page: null
   }),
   components: {
     InfoDialog
@@ -83,6 +88,9 @@ export default {
     },
     onOpenBasket: function() {
       alert('Hello World!')
+    },
+    searchPage() {
+      iPaperAPI.goToPage(+this.page)
     }
   }
 }
