@@ -322,7 +322,7 @@ export default {
 
     getScreenSize() {
       let widthScreen = window.innerWidth
-      console.log(widthScreen)
+      // console.log(widthScreen)
 
       if (widthScreen <= 320) {
         this.carrouselHeight = 320

@@ -17,15 +17,24 @@
         <v-container>
           <v-row justify="center" no-gutters>
             <v-col :cols="12" :sm="6" :md="5" :lg="4">
-              <h2 class="mb-3">Productos Añadidos</h2>
-              <template v-for="(cartProduct, index) in cart">
-                <product-cart
-                  :product="cartProduct"
-                  :index="index"
-                  :key="index"
-                  @open="openDialogProduct"
-                />
-              </template>
+              <!-- <v-icon color="grey lighten-3" dark>mdi-arrow-left</v-icon> -->
+              <v-btn fab dark small color="primary" @click="closeDialog">
+                <v-icon color="grey lighten-3" dark>mdi-arrow-left</v-icon>
+              </v-btn>
+              <h2 class="mb-3">
+                Productos Añadidos
+              </h2>
+              <v-list three-line class="my-1 py-1">
+                <v-divider></v-divider>
+                <template v-for="(cartProduct, index) in cart">
+                  <product-cart
+                    :product="cartProduct"
+                    :index="index"
+                    :key="index"
+                    @open="openDialogProduct"
+                  />
+                </template>
+              </v-list>
             </v-col>
           </v-row>
         </v-container>
