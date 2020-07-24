@@ -4,7 +4,7 @@
       fullscreen
       hide-overlay
       transition="dialog-bottom-transition"
-      v-model="infoDialog"
+      v-model="dialogProduct"
       persistent
     >
       <!-- <v-card v-if="!productDetail">
@@ -180,7 +180,10 @@ import { mapState, mapGetters } from 'vuex'
 export default {
   props: {
     value: Boolean,
-    product: Object
+    product: {
+      type: Object,
+      default: null
+    }
   },
   data: function() {
     return {
@@ -200,6 +203,11 @@ export default {
     this.getScreenSize()
   },
   watch: {
+    dialogProduct(value) {
+      if (value)
+        if (typeof this.product.indexSize !== 'undefined')
+          this.variant = this.product.indexSize
+    },
     variant(value) {
       if (value || value === 0) {
         this.variantSelected = this.productDetail.variants[value]
@@ -222,7 +230,7 @@ export default {
   },
   computed: {
     ...mapState(['cart']),
-    infoDialog: {
+    dialogProduct: {
       get() {
         return this.value
       },
@@ -316,7 +324,7 @@ export default {
       }
     },
     closeDialog: function() {
-      this.infoDialog = false
+      this.dialogProduct = false
       this.variant = null
       this.quantitySelected = 1
       this.quantities = []
