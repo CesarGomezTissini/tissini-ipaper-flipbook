@@ -203,6 +203,11 @@ export default {
     this.getScreenSize()
   },
   watch: {
+    dialogProduct(value) {
+      if (value)
+        if (typeof this.product.indexSize !== 'undefined')
+          this.variant = this.product.indexSize
+    },
     variant(value) {
       if (value || value === 0) {
         this.variantSelected = this.productDetail.variants[value]
