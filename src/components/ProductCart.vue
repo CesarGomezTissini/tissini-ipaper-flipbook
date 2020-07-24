@@ -48,81 +48,13 @@
           class="ml-0 elevation-0"
           color="red"
           style="color: white; width: 50%; border-radius: 0 0 5px 0"
+          @click="removeProduct"
         >
           <v-icon class="mr-2">mdi-delete</v-icon>Eliminar
         </v-btn>
       </v-card-actions>
     </v-list-item-content>
   </v-card>
-
-  <!-- <v-card width="100%" elevation="3" color="pink lighten-5">
-    <div class="d-flex flex-no-wrap justify-space-between">
-      <div class="col-7">
-        <v-card-title class="h5" v-text="product.name"></v-card-title>
-
-        <v-card-subtitle>
-          <p class="mb-0"><strong>SKU:</strong> {{ product.sku }}</p>
-          <p class="mb-0"><strong>Precio:</strong> ${{ product.price }}</p>
-          <p class="mb-0"><strong>Cantidad:</strong> {{ product.quantity }}</p>
-        </v-card-subtitle>
-      </div>
-      <div class="col-5">
-        <v-avatar class="ma-0" size="130" tile>
-          <v-img :src="`http://api.tissini.app/${product.image}`"></v-img>
-        </v-avatar>
-      </div>
-    </div>
-
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn color="blue" @click="editProduct">Edit</v-btn>
-    </v-card-actions>
-  </v-card> -->
-
-  <!-- <v-list-tile
-    :key="`${index + ' ' + product.id + ' ' + (product.promoIndex || '')}`"
-    class="my-3"
-  >
-    <v-col :cols="8">
-      <v-list-tile-content class="px-0">
-        <v-list-tile-title
-          ><span class="truncate">{{ product.name }}</span></v-list-tile-title
-        >
-        <v-list-tile-sub-title
-          class="font-weight-bold"
-          style="margin-top: -8px;color: grey"
-          ><small>{{ product.sku }}</small>
-        </v-list-tile-sub-title>
-        <v-divider class="mb-1 white--text" dark></v-divider>
-
-        <v-list-tile-sub-title v-if="product.size !== 'catalog'"
-          ><strong>Tamaño:</strong> {{ product.size || 'Único' }}
-        </v-list-tile-sub-title>
-        <v-list-tile-sub-title
-          ><strong>Unidad:</strong>
-          <span
-            v-if="discountFlag && !product.catalog && product.price > 0"
-          >
-            <span style="text-decoration: line-through;" class="ml-1">
-              ${{ product.price }}
-            </span>
-            <strong class="mx-1" style="font-size:14px;color: #f06292;"
-              >${{ product.priceWithDiscount }}</strong
-            >
-          </span>
-          <span v-else>${{ product.price }}</span>
-        </v-list-tile-sub-title> 
-        <v-list-tile-sub-title style="font-size: 14px; height: 20px"
-          ><strong>Cantidad:</strong> {{ product.selectedQuantityScart }}
-        </v-list-tile-sub-title>
-      </v-list-tile-content>
-    </v-col>
-    <v-col :cols="6">
-      <v-list-tile-avatar :size="avatarSize" tile style="margin-top: 0px">
-        <v-img :src="URL + product.image" width="100%" class="product-image" />
-      </v-list-tile-avatar>
-    </v-col>
-  </v-list-tile> -->
 </template>
 
 <script>
@@ -172,6 +104,9 @@ export default {
           })
           .catch(error => console.log(error))
       }
+    },
+    removeProduct: function() {
+      this.$emit('remove-product', this.index)
     }
   }
 }

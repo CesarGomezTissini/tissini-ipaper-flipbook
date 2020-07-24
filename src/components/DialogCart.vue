@@ -32,6 +32,7 @@
                     :index="index"
                     :key="index"
                     @open="openDialogProduct"
+                    @remove-product="removeProduct"
                   />
                 </template>
               </v-list>
@@ -83,6 +84,11 @@ export default {
     },
     closeDialog: function() {
       this.dialogCart = false
+    },
+    removeProduct: function(index) {
+      let cart = JSON.parse(JSON.stringify(this.cart))
+      cart.splice(index, 1)
+      this.$store.commit('updateCart', cart)
     }
   }
 }

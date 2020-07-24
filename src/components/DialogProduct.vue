@@ -294,8 +294,6 @@ export default {
             product => product.reference == this.product.reference
           )
 
-          console.log(this.product)
-
           cart[index].quantity = this.quantitySelected
           cart[index].size = this.variantSelected.size
           cart[index].sku = this.variantSelected.sku
