@@ -190,10 +190,13 @@ export default {
       quantities: [],
       variantSelected: null,
       carrousel: 0,
-      carrouselHeight: 0
+      carrouselHeight: 300
     }
   },
   created() {
+    window.addEventListener('resize', this.getScreenSize)
+  },
+  mounted() {
     this.getScreenSize()
   },
   watch: {
@@ -244,6 +247,7 @@ export default {
   methods: {
     addProduct() {
       let product = {
+        indexSize: this.variant,
         size: this.variantSelected.size,
         quantity: this.quantitySelected,
         name: this.productDetail.name,
@@ -285,27 +289,27 @@ export default {
 
     getScreenSize() {
       let widthScreen = window.innerWidth
-      // console.log(widthScreen)
+      console.log(widthScreen)
 
       if (widthScreen <= 320) {
         this.carrouselHeight = 320
         // this.itemCardSize = 390
       } else {
         if (widthScreen >= 375 && widthScreen <= 399) {
-          this.carrouselHeight = 400
+          this.carrouselHeight = 355
           // this.itemCardSize = 470
         } else {
           if (widthScreen >= 400 && widthScreen <= 439) {
-            this.carrouselHeight = 430
+            this.carrouselHeight = 425
             // this.itemCardSize = 500
           } else if (widthScreen > 440 && widthScreen < 599) {
             this.carrouselHeight = 500
             // this.itemCardSize = 580
-          } else if (widthScreen >= 768) {
-            this.carrouselHeight = 340
+          } else if (widthScreen >= 768 && widthScreen <= 1366) {
+            this.carrouselHeight = 330
             // this.itemCardSize = 410
           } else {
-            this.carrouselHeight = 430
+            this.carrouselHeight = 360
             // this.itemCardSize = 450
           }
         }
