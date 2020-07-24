@@ -20,14 +20,17 @@
               <h2 class="mb-3">
                 Productos Añadidos
               </h2>
-              <template v-for="(cartProduct, index) in cart">
-                <product-cart
-                  :product="cartProduct"
-                  :index="index"
-                  :key="index"
-                  @open="openDialogProduct"
-                />
-              </template>
+              <v-list three-line class="my-1 py-1">
+                <v-divider></v-divider>
+                <template v-for="(cartProduct, index) in cart">
+                  <product-cart
+                    :product="cartProduct"
+                    :index="index"
+                    :key="index"
+                    @open="openDialogProduct"
+                  />
+                </template>
+              </v-list>
             </v-col>
           </v-row>
         </v-container>
