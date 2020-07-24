@@ -1,5 +1,5 @@
 <template>
-  <v-card width="300" elevation="3" color="pink lighten-5">
+  <v-card width="100%" elevation="3" color="pink lighten-5">
     <div class="d-flex flex-no-wrap justify-space-between">
       <div class="col-7">
         <v-card-title class="h5" v-text="product.name"></v-card-title>
