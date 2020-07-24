@@ -40,24 +40,27 @@
       </v-col>
     </v-row>
 
-    <v-btn
-      fab
-      right
-      dark
-      fixed
-      bottom
-      color="pink lighten-2"
-      class="elevation-7"
-      @click="openDialogCart"
-      ><v-icon dark>mdi-cart</v-icon>
-      <v-badge
-        :content="countProductsFromCart"
-        :value="countProductsFromCart"
-        color="pink"
-        style="margin-top: -60px; left: 10px; font-size: 20px"
-      >
-      </v-badge>
-    </v-btn>
+    <v-scale-transition>
+      <v-btn
+        fab
+        right
+        dark
+        fixed
+        bottom
+        color="pink lighten-2"
+        class="elevation-7"
+        @click="openDialogCart"
+        v-if="!this.iframeLoading"
+        ><v-icon dark>mdi-cart</v-icon>
+        <v-badge
+          :content="countProductsFromCart"
+          :value="countProductsFromCart"
+          color="pink"
+          style="margin-top: -60px; left: 10px; font-size: 20px"
+        >
+        </v-badge>
+      </v-btn>
+    </v-scale-transition>
   </v-container>
 </template>
 
