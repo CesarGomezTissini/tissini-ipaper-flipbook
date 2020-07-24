@@ -6,8 +6,8 @@
         Producto agregado
       </div>
     </v-snackbar>
-    <InfoDialog
-      v-model="infoDialog"
+    <DialogProduct
+      v-model="dialogProduct"
       :product="product"
       @showSnackbar="showSnackbar"
     />
@@ -26,7 +26,6 @@
             @iframe-load="onIframeLoad"
             @onSpreadChange="onAnyAction"
             @onPageElementClick="itemDetail"
-            @onBasketClick="onOpenBasket"
             frameborder="0"
             allow="fullscreen;autoplay"
             allowfullscreen
@@ -47,20 +46,24 @@
 
 <script>
 import axios from 'axios'
-import InfoDialog from './DialogProduct'
+import DialogProduct from './DialogProduct'
+import { mapState } from 'vuex'
 export default {
   name: 'HelloWorld',
 
   data: () => ({
     iframeLoading: true,
-    infoDialog: false,
+    dialogProduct: false,
     bodyMessage: '',
     product: null,
     page: null,
     snackbar: false
   }),
   components: {
-    InfoDialog
+    DialogProduct
+  },
+  computed: {
+    ...mapState(['requestedProducts'])
   },
   // created() {
   //   // window.addEventListener('resize', this.getScreenSize)
@@ -87,22 +90,28 @@ export default {
       // console.log($event.detail.data.productId)
       let product = $event.detail.data.productId
 
-      const api = 'https://api.tissini.app/api/v1/product/searchall/'
-      const token =
-        'AFZdgWRAzSb6VXmXmTwjR7gCHGEtLZzsOwUjtCovMma4sCeH5kYQpoo3qpKUFVPyUPDmTfxSq94tE3gM'
-      axios
-        .get(api + product, {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-        .then(res => {
-          console.log(res.data)
-          this.product = res.data[0]
-          this.infoDialog = true
-        })
-        .catch(error => console.log(error))
-    },
-    onOpenBasket: function() {
-      alert('Hello World!')
+      let productFound = this.requestedProducts.find(
+        element => element.reference == product
+      )
+
+      if (productFound) {
+        this.product = productFound
+      } else {
+        const api = 'https://api.tissini.app/api/v1/product/searchall/'
+        const token =
+          'AFZdgWRAzSb6VXmXmTwjR7gCHGEtLZzsOwUjtCovMma4sCeH5kYQpoo3qpKUFVPyUPDmTfxSq94tE3gM'
+        axios
+          .get(api + product, {
+            headers: { Authorization: `Bearer ${token}` }
+          })
+          .then(res => {
+            console.log(res.data)
+            this.$store.commit('setRequestedProducts', res.data[0])
+            this.product = res.data[0]
+          })
+          .catch(error => console.log(error))
+      }
+      this.dialogProduct = true
     },
     searchPage() {
       iPaperAPI.goToPage(+this.page)

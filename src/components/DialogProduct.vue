@@ -4,7 +4,7 @@
       fullscreen
       hide-overlay
       transition="dialog-bottom-transition"
-      v-model="infoDialog"
+      v-model="dialogProduct"
       persistent
     >
       <!-- <v-card v-if="!productDetail">
@@ -180,7 +180,10 @@ import { mapState, mapGetters } from 'vuex'
 export default {
   props: {
     value: Boolean,
-    product: Object
+    product: {
+      type: Object,
+      default: null
+    }
   },
   data: function() {
     return {
@@ -222,7 +225,7 @@ export default {
   },
   computed: {
     ...mapState(['cart']),
-    infoDialog: {
+    dialogProduct: {
       get() {
         return this.value
       },
@@ -316,7 +319,7 @@ export default {
       }
     },
     closeDialog: function() {
-      this.infoDialog = false
+      this.dialogProduct = false
       this.variant = null
       this.quantitySelected = 1
       this.quantities = []

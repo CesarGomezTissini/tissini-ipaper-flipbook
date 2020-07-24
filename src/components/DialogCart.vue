@@ -1,5 +1,7 @@
 <template>
   <div class="text-xs-center">
+    <DialogProduct v-model="dialogProduct" :product="product" />
+
     <v-dialog
       fullscreen
       hide-overlay
@@ -13,7 +15,12 @@
             <v-col :cols="12" :sm="6" :md="5" :lg="4">
               <h2 class="mb-3">Productos Añadidos</h2>
               <template v-for="(cartProduct, index) in cart">
-                <product :product="cartProduct" :key="index" />
+                <product-cart
+                  :product="cartProduct"
+                  :index="index"
+                  :key="index"
+                  @open="openDialogProduct"
+                />
               </template>
             </v-col>
           </v-row>
@@ -24,14 +31,19 @@
 </template>
 
 <script>
-import Product from '@/components/Product'
+import ProductCart from '@/components/ProductCart'
+import DialogProduct from '@/components/DialogProduct'
+
 import { mapState, mapGetters } from 'vuex'
 export default {
   props: {
     value: Boolean
   },
   data: function() {
-    return {}
+    return {
+      product: null,
+      dialogProduct: false
+    }
   },
   computed: {
     ...mapState(['cart']),
@@ -45,9 +57,15 @@ export default {
     }
   },
   components: {
-    Product
+    ProductCart,
+    DialogProduct
   },
   methods: {
+    openDialogProduct: function(product) {
+      console.log(product)
+      this.product = product
+      this.dialogProduct = true
+    },
     closeDialog: function() {
       this.dialogCart = false
     }
