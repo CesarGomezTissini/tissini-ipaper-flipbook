@@ -7,72 +7,6 @@
       v-model="dialogProduct"
       persistent
     >
-      <!-- <v-card v-if="!productDetail">
-        <h1>no hay</h1>
-      </v-card>
-      <v-card v-else>
-        <v-img
-          height="350"
-          :src="'https://api.tissini.app' + productDetail.images[0].url"
-        >
-          <v-row align="start" class="lightbox white--text ma-1 fill-height">
-            <v-col>
-              <v-btn fab dark small color="primary" @click.stop="closeDialog">
-                <v-icon dark>mdi-arrow-left</v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-img>
-        <v-divider></v-divider>
-        <v-card-title>
-          <v-row no-gutters>
-            <v-col :cols="8" :sm="9">
-              {{ productDetail.name }}
-            </v-col>
-            <v-col :cols="4" style="text-align: right;" :sm="3">
-              ${{ price }}
-            </v-col>
-          </v-row>
-        </v-card-title>
-        <v-card-text>
-          <span>Tallas</span>
-          <v-chip-group
-            v-model="variant"
-            active-class="pink lighten-1 white--text"
-          >
-            <v-chip
-              v-for="(variant, index) in productDetail.variants"
-              :key="index"
-              :disabled="!Boolean(variant.quantity)"
-            >
-              {{ variant.size }}
-            </v-chip>
-          </v-chip-group>
-          <v-select
-            v-if="quantities.length > 0"
-            label="Cantidad"
-            v-model="quantitySelected"
-            :items="quantities"
-            required
-            color="primary"
-          ></v-select>
-          <v-footer fixed v-if="quantities.length > 0">
-            <v-col class="text-center" cols="12">
-              <v-btn
-                outlined
-                rounded
-                color="primary"
-                block
-                dark
-                @click="addProduct"
-              >
-                <v-icon size="small" dark>mdi-cart-arrow-down</v-icon>
-                AGREGAR AL CARRITO
-              </v-btn>
-            </v-col>
-          </v-footer>
-        </v-card-text>
-      </v-card> -->
       <v-card v-if="!productDetail">
         <h1>no hay</h1>
       </v-card>
@@ -213,7 +147,6 @@ export default {
           this.variant = this.product.indexSize
 
         if (this.origin == 'cart') {
-          console.log(this.product)
           this.quantitySelected = this.product.quantity
         }
       }

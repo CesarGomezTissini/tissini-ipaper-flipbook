@@ -3,7 +3,6 @@
     <v-list-item-content class="pa-0">
       <v-row justify="center">
         <v-col :cols="7" class="pl-6">
-          <!-- {{ product.name }} -->
           <v-list-item-title>
             <span class="truncate">{{ product.name }}</span>
           </v-list-item-title>
@@ -95,7 +94,6 @@ export default {
             headers: { Authorization: `Bearer ${token}` }
           })
           .then(res => {
-            console.log(res.data)
             productFound = res.data[0]
             this.$store.commit('setRequestedProducts', res.data[0])
             productFound['indexSize'] = this.cart[this.index].indexSize

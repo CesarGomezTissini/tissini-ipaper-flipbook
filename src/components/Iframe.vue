@@ -14,16 +14,11 @@
     <v-row>
       <v-col cols="12">
         <v-row align="center" justify="center">
-          <!-- <div class="iframe-loading" v-if="iframeLoading">
-            iframe loading...
-          </div> -->
-          <!-- <div> -->
           <iframe
             style="width: 100%; height: 550px"
             ref="frame"
             src="https://viewer.ipaper.io/tissini/catalogo-textil-primavera-verano-2020/"
             @load="onLoad"
-            @iframe-load="onIframeLoad"
             @onSpreadChange="onAnyAction"
             @onPageElementClick="itemDetail"
             frameborder="0"
@@ -65,29 +60,16 @@ export default {
   computed: {
     ...mapState(['requestedProducts'])
   },
-  // created() {
-  //   // window.addEventListener('resize', this.getScreenSize)
-  //   this.getScreenSize()
-  // },
   methods: {
     onAnyAction: function($event) {},
-    start: function() {
-      iPaperAPI.goToPage(1)
-    },
     onLoad: function() {
-      console.log('iframe loaded')
       iPaperAPI.updateEventSettings({
         onBasketClick: { preventDefault: true },
         onPageElementClick: { preventDefault: true }
       })
       this.iframeLoading = false
     },
-    onIframeLoad: function() {
-      console.log('iframe loaded')
-    },
     itemDetail: function($event) {
-      // console.log('details')
-      // console.log($event.detail.data.productId)
       let product = $event.detail.data.productId
 
       let productFound = this.requestedProducts.find(
@@ -106,7 +88,6 @@ export default {
             headers: { Authorization: `Bearer ${token}` }
           })
           .then(res => {
-            console.log(res.data)
             this.$store.commit('setRequestedProducts', res.data[0])
             this.product = res.data[0]
             this.dialogProduct = true
@@ -120,10 +101,6 @@ export default {
     showSnackbar() {
       this.snackbar = true
     }
-    // getScreenSize() {
-    //   let widthScreen = window.innerWidth
-    //   console.log(widthScreen)
-    // }
   }
 }
 </script>

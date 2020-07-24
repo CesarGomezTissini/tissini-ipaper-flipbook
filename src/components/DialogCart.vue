@@ -77,7 +77,6 @@ export default {
   },
   methods: {
     openDialogProduct: function(product) {
-      console.log(product)
       this.product = product
       this.origin = 'cart'
       this.dialogProduct = true
