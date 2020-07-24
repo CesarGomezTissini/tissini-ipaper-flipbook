@@ -96,6 +96,7 @@ export default {
 
       if (productFound) {
         this.product = productFound
+        this.dialogProduct = true
       } else {
         const api = 'https://api.tissini.app/api/v1/product/searchall/'
         const token =
@@ -108,10 +109,10 @@ export default {
             console.log(res.data)
             this.$store.commit('setRequestedProducts', res.data[0])
             this.product = res.data[0]
+            this.dialogProduct = true
           })
           .catch(error => console.log(error))
       }
-      this.dialogProduct = true
     },
     searchPage() {
       iPaperAPI.goToPage(+this.page)

@@ -19,7 +19,7 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="blue" @click="test">Edit</v-btn>
+      <v-btn color="blue" @click="editProduct">Edit</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -44,13 +44,14 @@ export default {
     ...mapState(['requestedProducts', 'cart'])
   },
   methods: {
-    test: function() {
+    editProduct: function() {
       let productFound = this.requestedProducts.find(
         element => element.reference == this.product.reference
       )
 
       if (productFound) {
         productFound['indexSize'] = this.cart[this.index].indexSize
+        productFound['quantity'] = this.cart[this.index].quantity
         this.$emit('open', productFound)
       } else {
         const api = 'https://api.tissini.app/api/v1/product/searchall/'
@@ -63,7 +64,9 @@ export default {
           .then(res => {
             console.log(res.data)
             productFound = res.data[0]
+            this.$store.commit('setRequestedProducts', res.data[0])
             productFound['indexSize'] = this.cart[this.index].indexSize
+            productFound['quantity'] = this.cart[this.index].quantity
             this.$emit('open', productFound)
           })
           .catch(error => console.log(error))

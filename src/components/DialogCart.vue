@@ -1,6 +1,10 @@
 <template>
   <div class="text-xs-center">
-    <DialogProduct v-model="dialogProduct" :product="product" />
+    <DialogProduct
+      v-model="dialogProduct"
+      :product="product"
+      :origin="origin"
+    />
 
     <v-dialog
       fullscreen
@@ -42,7 +46,8 @@ export default {
   data: function() {
     return {
       product: null,
-      dialogProduct: false
+      dialogProduct: false,
+      origin: null
     }
   },
   computed: {
@@ -64,6 +69,7 @@ export default {
     openDialogProduct: function(product) {
       console.log(product)
       this.product = product
+      this.origin = 'cart'
       this.dialogProduct = true
     },
     closeDialog: function() {

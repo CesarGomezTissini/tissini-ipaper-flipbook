@@ -183,6 +183,10 @@ export default {
     product: {
       type: Object,
       default: null
+    },
+    origin: {
+      type: String,
+      default: 'catalog'
     }
   },
   data: function() {
@@ -204,9 +208,15 @@ export default {
   },
   watch: {
     dialogProduct(value) {
-      if (value)
+      if (value && this.product) {
         if (typeof this.product.indexSize !== 'undefined')
           this.variant = this.product.indexSize
+
+        if (this.origin == 'cart') {
+          console.log(this.product)
+          this.quantitySelected = this.product.quantity
+        }
+      }
     },
     variant(value) {
       if (value || value === 0) {
@@ -279,14 +289,29 @@ export default {
       let cart = JSON.parse(JSON.stringify(this.cart))
 
       if (cart.length > 0) {
-        let index = cart.findIndex(
-          product => product.id == this.variantSelected.id
-        )
-        index >= 0
-          ? (cart[index].quantity += this.quantitySelected)
-          : cart.push(product)
+        if (this.origin == 'cart') {
+          let index = cart.findIndex(
+            product => product.reference == this.product.reference
+          )
 
-        this.$store.commit('updateCart', cart)
+          console.log(this.product)
+
+          cart[index].quantity = this.quantitySelected
+          cart[index].size = this.variantSelected.size
+          cart[index].sku = this.variantSelected.sku
+
+          this.$store.commit('updateCart', cart)
+        } else {
+          let index = cart.findIndex(
+            product => product.id == this.variantSelected.id
+          )
+
+          index >= 0
+            ? (cart[index].quantity += this.quantitySelected)
+            : cart.push(product)
+
+          this.$store.commit('updateCart', cart)
+        }
       } else {
         this.$store.commit('pushToCart', product)
       }
@@ -334,3 +359,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+@media (max-width: 320px) {
+  ::v-deep .v-card__title {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+</style>
