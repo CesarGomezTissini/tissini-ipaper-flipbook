@@ -40,6 +40,7 @@
           color="blue"
           style="color: white; width:50%; border-radius: 0 0 0 5px"
           class="elevation-0"
+          @click="editProduct"
         >
           <v-icon class="mr-2">mdi-lead-pencil</v-icon>Modificar
         </v-btn>
