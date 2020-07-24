@@ -1,0 +1,14 @@
+[[redirects]]
+  from = "/*"
+  to = "./index.html"
+  status = 200
+
+[[headers]]
+ for = "/*"
+ [headers.values]
+    # Multi-key header rules are expressed with multi-line strings.
+	cache-control = '''
+    max-age=0,
+    no-cache,
+    no-store,
+    must-revalidate'''
