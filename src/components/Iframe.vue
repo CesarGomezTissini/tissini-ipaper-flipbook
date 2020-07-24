@@ -11,54 +11,78 @@
       :product="product"
       @showSnackbar="showSnackbar"
     />
+    <DialogCart v-model="dialogCart" />
     <v-row>
       <v-col cols="12">
         <v-row align="center" justify="center">
-          <iframe
-            style="width: 100%; height: 550px"
-            ref="frame"
-            src="https://viewer.ipaper.io/tissini/catalogo-textil-primavera-verano-2020/"
-            @load="onLoad"
-            @onSpreadChange="onAnyAction"
-            @onPageElementClick="itemDetail"
-            frameborder="0"
-            allow="fullscreen;autoplay"
-            allowfullscreen
-            webkitallowfullscreen
-            mozallowfullscreen
-          >
-          </iframe>
+          <v-container>
+            <iframe
+              style="width: 100%; height: 550px"
+              ref="frame"
+              src="https://viewer.ipaper.io/tissini/catalogo-textil-primavera-verano-2020/"
+              @load="onLoad"
+              @onSpreadChange="onAnyAction"
+              @onPageElementClick="itemDetail"
+              frameborder="0"
+              allow="fullscreen;autoplay"
+              allowfullscreen
+              webkitallowfullscreen
+              mozallowfullscreen
+            >
+            </iframe>
+          </v-container>
           <!-- </div> -->
         </v-row>
-        <v-btn @click="searchPage">
+        <!-- <v-btn @click="searchPage">
           Página
         </v-btn>
-        <v-text-field v-model="page" label="Pagina"></v-text-field>
+        <v-text-field v-model="page" label="Pagina"></v-text-field> -->
       </v-col>
     </v-row>
+
+    <v-btn
+      fab
+      right
+      dark
+      fixed
+      bottom
+      color="pink lighten-2"
+      class="elevation-7"
+      @click="openDialogCart"
+      ><v-icon dark>mdi-cart</v-icon>
+      <v-badge
+        :content="countProductsFromCart"
+        :value="countProductsFromCart"
+        color="pink"
+        style="margin-top: -60px; left: 10px; font-size: 20px"
+      >
+      </v-badge>
+    </v-btn>
   </v-container>
 </template>
 
 <script>
 import axios from 'axios'
 import DialogProduct from './DialogProduct'
-import { mapState } from 'vuex'
+import DialogCart from './DialogCart'
+import { mapState, mapGetters } from 'vuex'
 export default {
-  name: 'HelloWorld',
-
   data: () => ({
     iframeLoading: true,
     dialogProduct: false,
     bodyMessage: '',
     product: null,
     page: null,
-    snackbar: false
+    snackbar: false,
+    dialogCart: false
   }),
   components: {
-    DialogProduct
+    DialogProduct,
+    DialogCart
   },
   computed: {
-    ...mapState(['requestedProducts'])
+    ...mapState(['requestedProducts']),
+    ...mapGetters(['countProductsFromCart'])
   },
   methods: {
     onAnyAction: function($event) {},
@@ -100,9 +124,19 @@ export default {
     },
     showSnackbar() {
       this.snackbar = true
+    },
+    openDialogCart: function() {
+      this.dialogCart = true
     }
   }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+::v-deep .v-badge__badge.pink {
+  font-size: 18px;
+  width: 25px;
+  height: 25px;
+  border-radius: 20px;
+}
+</style>

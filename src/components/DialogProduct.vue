@@ -13,7 +13,7 @@
       <v-card v-else>
         <v-row justify="center" no-gutters>
           <v-col :cols="12" :sm="5" :md="4" :lg="3">
-            <v-card elevation="3">
+            <v-card elevation="0">
               <v-carousel
                 :show-arrows="productDetail.images.length > 1"
                 v-model="carrousel"
@@ -64,38 +64,35 @@
                 <span>Tallas</span>
                 <v-chip-group
                   v-model="variant"
-                  active-class="pink lighten-1 white--text"
+                  active-class="pink lighten-2 white--text bordered"
                 >
                   <v-chip
                     v-for="(variant, index) in productDetail.variants"
                     :key="index"
                     :disabled="!Boolean(variant.quantity)"
+                    :color="Boolean(variant.quantity) ? 'pink lighten-5' : ''"
                   >
                     {{ variant.size }}
                   </v-chip>
                 </v-chip-group>
                 <v-select
-                  v-if="quantities.length > 0"
+                  :disabled="!quantities.length > 0"
                   label="Cantidad"
                   v-model="quantitySelected"
                   :items="quantities"
                   required
                   color="primary"
                 ></v-select>
-                <v-footer
-                  color="pink lighten-5"
-                  fixed
-                  v-if="quantities.length > 0"
-                >
+                <v-footer color="pink lighten-5" fixed>
                   <v-col class="text-center" cols="12">
                     <v-btn
+                      :disabled="quantities.length === 0"
                       outlined
                       rounded
                       color="primary"
-                      dark
                       @click="addProduct"
                     >
-                      <v-icon size="small" dark>mdi-cart-arrow-down</v-icon>
+                      <v-icon dark class="mr-2">mdi-cart-arrow-down</v-icon>
                       AGREGAR AL CARRITO
                     </v-btn>
                   </v-col>
@@ -280,18 +277,21 @@ export default {
       }
     },
     closeDialog: function() {
-      this.dialogProduct = false
       this.variant = null
       this.quantitySelected = 1
       this.quantities = []
       this.variantSelected = null
       this.carrousel = 0
+      this.dialogProduct = false
     }
   }
 }
 </script>
 
 <style scoped>
+.bordered {
+  border: 2px solid #d81b60;
+}
 @media (max-width: 320px) {
   ::v-deep .v-card__title {
     padding-top: 10px;

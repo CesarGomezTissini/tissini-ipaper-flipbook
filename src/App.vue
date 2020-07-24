@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <dialog-cart v-model="dialogCart" />
-    <v-app-bar app color="grey lighten-3" dark>
+    <!-- <dialog-cart v-model="dialogCart" /> -->
+    <!-- <v-app-bar app color="grey lighten-3" dark>
       <div class="d-flex align-center">
         <v-img
           class="shrink mr-2"
@@ -13,10 +13,6 @@
       </div>
 
       <v-spacer></v-spacer>
-
-      <!-- <v-btn color="pink lighten-2" text class="px-0">
-        <v-icon size="40">mdi-cart</v-icon>
-      </v-btn> -->
       <v-badge
         style="margin-top: 6px;"
         :content="countProductsFromCart"
@@ -28,7 +24,7 @@
           ><v-icon size="36">mdi-cart</v-icon></v-btn
         >
       </v-badge>
-    </v-app-bar>
+    </v-app-bar> -->
 
     <v-main>
       <Iframe />
@@ -38,7 +34,7 @@
 
 <script>
 import Iframe from './components/Iframe'
-import DialogCart from './components/DialogCart'
+// import DialogCart from './components/DialogCart'
 import { mapGetters } from 'vuex'
 
 import tissini_logo from '@/assets/tissini-toolbar.png'
@@ -53,8 +49,8 @@ export default {
     ...mapGetters(['countProductsFromCart'])
   },
   components: {
-    Iframe,
-    DialogCart
+    Iframe
+    // DialogCart
   },
   created() {
     this.getCart()

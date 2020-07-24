@@ -9,7 +9,7 @@
     <v-dialog
       fullscreen
       hide-overlay
-      transition="dialog-bottom-transition"
+      transition="slide-x-reverse-transition"
       v-model="dialogCart"
       persistent
     >
