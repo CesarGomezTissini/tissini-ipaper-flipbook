@@ -1,56 +1,84 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <dialog-cart v-model="dialogCart" />
+    <v-app-bar app color="grey lighten-3" dark>
       <div class="d-flex align-center">
         <v-img
-          alt="Vuetify Logo"
           class="shrink mr-2"
           contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          :src="logo"
           transition="scale-transition"
           width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
         />
       </div>
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
+      <!-- <v-btn color="pink lighten-2" text class="px-0">
+        <v-icon size="40">mdi-cart</v-icon>
+      </v-btn> -->
+      <v-badge
+        style="margin-top: 6px;"
+        :content="countProductsFromCart"
+        :value="countProductsFromCart"
+        color="pink"
+        overlap
       >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+        <v-btn @click="openDialogCart" icon color="pink lighten-2"
+          ><v-icon size="36">mdi-cart</v-icon></v-btn
+        >
+      </v-badge>
     </v-app-bar>
 
     <v-main>
-      <HelloWorld />
+      <Iframe />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import Iframe from './components/Iframe'
+import DialogCart from './components/DialogCart'
+import { mapGetters } from 'vuex'
+
+import tissini_logo from '@/assets/tissini-toolbar.png'
 
 export default {
   name: 'App',
-
-  components: {
-    HelloWorld
-  },
-
   data: () => ({
-    //
-  })
+    logo: tissini_logo,
+    dialogCart: false
+  }),
+  computed: {
+    ...mapGetters(['countProductsFromCart'])
+  },
+  components: {
+    Iframe,
+    DialogCart
+  },
+  created() {
+    this.getCart()
+  },
+  methods: {
+    getCart: function() {
+      if (localStorage.cart) {
+        this.$store.commit('updateCart', JSON.parse(localStorage.cart))
+      }
+    },
+    openDialogCart: function() {
+      this.dialogCart = true
+    }
+  }
 }
 </script>
+
+<style scoped>
+::v-deep .v-btn:not(.v-btn--round).v-size--default {
+  min-width: 36px;
+}
+
+::v-deep .v-badge__badge {
+  bottom: calc(100% - 15px) !important;
+  left: calc(100% - 15px) !important;
+}
+</style>

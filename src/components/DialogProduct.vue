@@ -176,6 +176,7 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 export default {
   props: {
     value: Boolean,
@@ -193,7 +194,6 @@ export default {
     }
   },
   created() {
-    // window.addEventListener('resize', this.getScreenSize)
     this.getScreenSize()
   },
   watch: {
@@ -218,6 +218,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(['cart']),
     infoDialog: {
       get() {
         return this.value
@@ -263,16 +264,21 @@ export default {
         product_id: this.productDetail.id
       }
 
-      let cart = JSON.parse(localStorage.getItem('cart'))
-      if (cart) {
-        let index = cart.findIndex(p => p.id === this.variantSelected.id)
+      let cart = JSON.parse(JSON.stringify(this.cart))
+
+      if (cart.length > 0) {
+        let index = cart.findIndex(
+          product => product.id == this.variantSelected.id
+        )
         index >= 0
           ? (cart[index].quantity += this.quantitySelected)
           : cart.push(product)
-        localStorage.setItem('cart', JSON.stringify(cart))
+
+        this.$store.commit('updateCart', cart)
       } else {
-        localStorage.setItem('cart', JSON.stringify([product]))
+        this.$store.commit('pushToCart', product)
       }
+
       this.$emit('showSnackbar')
       this.closeDialog()
     },
