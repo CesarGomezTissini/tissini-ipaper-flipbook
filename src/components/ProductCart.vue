@@ -100,7 +100,7 @@ export default {
             productFound['quantity'] = this.cart[this.index].quantity
             this.$emit('open', productFound)
           })
-          .catch(error => console.log(error))
+          .catch(error => error)
       }
     },
     removeProduct: function() {

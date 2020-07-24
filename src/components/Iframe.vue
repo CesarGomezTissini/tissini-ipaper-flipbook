@@ -92,7 +92,7 @@ export default {
             this.product = res.data[0]
             this.dialogProduct = true
           })
-          .catch(error => console.log(error))
+          .catch(error => error)
       }
     },
     searchPage() {
