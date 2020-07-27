@@ -36,6 +36,19 @@
                   />
                 </template>
               </v-list>
+              <v-footer color="green lighten-5" fixed>
+                <v-col class="text-center" cols="12">
+                  <v-btn
+                    outlined
+                    rounded
+                    color="green"
+                    @click="sendForWhatsApp"
+                  >
+                    <v-icon dark class="mr-2">mdi-whatsapp</v-icon>
+                    Enviar por WhatsApp
+                  </v-btn>
+                </v-col>
+              </v-footer>
             </v-col>
           </v-row>
         </v-container>
@@ -88,6 +101,24 @@ export default {
       let cart = JSON.parse(JSON.stringify(this.cart))
       cart.splice(index, 1)
       this.$store.commit('updateCart', cart)
+    },
+    sendForWhatsApp: function() {
+      let bodyMessage = `Hola {{customer.name}}, este es mi orden desde TISSINI iPaper:\n\n`
+
+      this.cart.forEach(product => {
+        bodyMessage += `Nombre: ${product.name}\nSKU: ${product.reference}\nPrecio: $${product.price}\nCantidad: ${product.quantity}\n------------------------------\n`
+      })
+
+      if ('share' in navigator) {
+        navigator.share({
+          title: document.title,
+          text: bodyMessage,
+          url: 'whatsapp://send?text=' + encodeURIComponent(bodyMessage)
+        })
+      } else {
+        location.href =
+          'whatsapp://send?text=' + encodeURIComponent(bodyMessage)
+      }
     }
   }
 }

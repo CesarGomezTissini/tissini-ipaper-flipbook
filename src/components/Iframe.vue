@@ -88,7 +88,9 @@ export default {
     ...mapGetters(['countProductsFromCart'])
   },
   methods: {
-    onAnyAction: function($event) {},
+    onAnyAction: function($event) {
+      console.log($event)
+    },
     onLoad: function() {
       iPaperAPI.updateEventSettings({
         onBasketClick: { preventDefault: true },
