@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     onAnyAction: function($event) {
-      console.log($event)
+      // console.log($event)
     },
     onLoad: function() {
       iPaperAPI.updateEventSettings({
