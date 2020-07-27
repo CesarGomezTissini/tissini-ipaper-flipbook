@@ -106,7 +106,7 @@ export default {
       let bodyMessage = `Hola {{customer.name}}, este es mi orden desde TISSINI iPaper:\n\n`
 
       this.cart.forEach(product => {
-        bodyMessage += `Nombre: ${product.name}\nSKU: ${product.reference}\nPrecio: $${product.price}\nCantidad: ${product.quantity}\n------------------------------\n`
+        bodyMessage += `*Nombre*: ${product.name}\n*SKU*: ${product.reference}\n*Precio*: $${product.price}\n*Cantidad*: ${product.quantity}\n------------------------------\n`
       })
 
       if ('share' in navigator) {
