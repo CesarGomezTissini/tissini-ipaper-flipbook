@@ -1,6 +1,6 @@
 <template>
   <v-container pa-0>
-    <v-snackbar :timeout="3000" color="primary" top v-model="snackbar">
+    <v-snackbar :timeout="2000" color="primary" top v-model="snackbar">
       <div style="text-align: center;">
         <v-icon dark right>mdi-checkbox-marked-circle</v-icon>
         Producto agregado
@@ -17,7 +17,7 @@
         <v-row align="center" justify="center">
           <v-container>
             <iframe
-              style="width: 100%; height: 550px"
+              class="responsive-iframe"
               ref="frame"
               src="https://viewer.ipaper.io/tissini/catalogo-textil-primavera-verano-2020/"
               @load="onLoad"
@@ -143,5 +143,15 @@ export default {
   width: 25px;
   height: 25px;
   border-radius: 20px;
+}
+
+.responsive-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
 }
 </style>
