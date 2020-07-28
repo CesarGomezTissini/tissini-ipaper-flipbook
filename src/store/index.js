@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     cart: [],
-    requestedProducts: []
+    catalogProducts: []
   },
   mutations: {
     pushToCart: (state, payload) => {
@@ -17,8 +17,7 @@ export default new Vuex.Store({
       state.cart = payload
       localStorage.setItem('cart', JSON.stringify(state.cart))
     },
-    setRequestedProducts: (state, payload) =>
-      state.requestedProducts.push(payload)
+    setCatalogProducts: (state, payload) => (state.catalogProducts = payload)
   },
   getters: {
     countProductsFromCart: state => {

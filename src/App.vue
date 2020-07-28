@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 import Iframe from './components/Iframe'
 // import DialogCart from './components/DialogCart'
 import { mapGetters } from 'vuex'
@@ -53,9 +55,17 @@ export default {
     // DialogCart
   },
   created() {
+    this.getAllCatalogProducts()
     this.getCart()
   },
   methods: {
+    getAllCatalogProducts: function() {
+      axios
+        .get('https://dev.tissini.app/api/v1/product/ipaper/searchall')
+        .then(response =>
+          this.$store.commit('setCatalogProducts', response.data.products)
+        )
+    },
     getCart: function() {
       if (localStorage.cart) {
         this.$store.commit('updateCart', JSON.parse(localStorage.cart))
