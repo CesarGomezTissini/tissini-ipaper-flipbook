@@ -73,11 +73,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(['requestedProducts', 'cart'])
+    ...mapState(['catalogProducts', 'cart'])
   },
   methods: {
     editProduct: function() {
-      let productFound = this.requestedProducts.find(
+      let productFound = this.catalogProducts.find(
         element => element.reference == this.product.reference
       )
 

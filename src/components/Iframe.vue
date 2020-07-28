@@ -109,27 +109,8 @@ export default {
         this.product = productFound
         this.dialogProduct = true
       } else {
-        alert('No se pudo encontrar el producto.')
+        alert('Este producto no tiene existencias en ninguna de sus tallas.')
       }
-
-      // if (productFound) {
-      //   this.product = productFound
-      //   this.dialogProduct = true
-      // } else {
-      //   const api = 'https://api.tissini.app/api/v1/product/searchall/'
-      //   const token =
-      //     'AFZdgWRAzSb6VXmXmTwjR7gCHGEtLZzsOwUjtCovMma4sCeH5kYQpoo3qpKUFVPyUPDmTfxSq94tE3gM'
-      //   axios
-      //     .get(api + product, {
-      //       headers: { Authorization: `Bearer ${token}` }
-      //     })
-      //     .then(res => {
-      //       this.$store.commit('setRequestedProducts', res.data[0])
-      //       this.product = res.data[0]
-      //       this.dialogProduct = true
-      //     })
-      //     .catch(error => error)
-      // }
     },
     searchPage() {
       iPaperAPI.goToPage(+this.page)
