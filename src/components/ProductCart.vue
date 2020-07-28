@@ -95,7 +95,6 @@ export default {
           })
           .then(res => {
             productFound = res.data[0]
-            this.$store.commit('setRequestedProducts', res.data[0])
             productFound['indexSize'] = this.cart[this.index].indexSize
             productFound['quantity'] = this.cart[this.index].quantity
             this.$emit('open', productFound)
