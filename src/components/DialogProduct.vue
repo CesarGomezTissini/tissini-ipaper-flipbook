@@ -90,7 +90,7 @@
                       outlined
                       rounded
                       color="primary"
-                      @click="addProduct"
+                      @click="addUpdateProduct"
                     >
                       <v-icon dark class="mr-2">mdi-cart-arrow-down</v-icon>
                       AGREGAR AL CARRITO
@@ -108,7 +108,10 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+import products from '@/utils/products'
+
 export default {
+  mixins: [products],
   props: {
     value: Boolean,
     product: {
@@ -138,7 +141,8 @@ export default {
     this.getScreenSize()
   },
   watch: {
-    dialogProduct(value) {
+    dialogProduct: function(value) {
+      console.log(this.product)
       if (value && this.product) {
         if (typeof this.product.indexSize !== 'undefined')
           this.variant = this.product.indexSize
@@ -148,7 +152,7 @@ export default {
         }
       }
     },
-    variant(value) {
+    variant: function(value) {
       if (value || value === 0) {
         this.variantSelected = this.productDetail.variants[value]
         this.price = this.variantSelected.price
@@ -193,18 +197,14 @@ export default {
     }
   },
   methods: {
-    addProduct() {
+    addUpdateProduct: function() {
       let product = {
         indexSize: this.variant,
         size: this.variantSelected.size,
         quantity: this.quantitySelected,
         name: this.productDetail.name,
         reference: this.productDetail.reference,
-        price: this.variantSelected.price, //this.getVariantData(this.itemSelected, this.variants.id).price,
-        // priceWithDiscount:
-        //   this.itemSelected.priceWithDiscount === undefined
-        //     ? this.getVariantData(this.itemSelected, this.variants.id).price
-        //     : this.itemSelected.priceWithDiscount,
+        price: this.variantSelected.price,
         image:
           this.productDetail.images.length !== 0
             ? this.productDetail.images[0].url
@@ -218,20 +218,27 @@ export default {
 
       let cart = JSON.parse(JSON.stringify(this.cart))
 
-      if (cart.length > 0) {
+      if (this.cart.length > 0) {
         if (this.origin == 'cart') {
-          let index = cart.findIndex(
-            product => product.reference == this.product.reference
+          let index = this.findProduct(
+            this.product.reference,
+            undefined,
+            'findIndex',
+            this.cart
           )
 
           cart[index].quantity = this.quantitySelected
           cart[index].size = this.variantSelected.size
           cart[index].sku = this.variantSelected.sku
+          cart[index].indexSize = this.variant
 
           this.$store.commit('updateCart', cart)
         } else {
-          let index = cart.findIndex(
-            product => product.id == this.variantSelected.id
+          let index = this.findProduct(
+            this.variantSelected.id,
+            'id',
+            'findIndex',
+            cart
           )
 
           index >= 0
@@ -248,7 +255,7 @@ export default {
       this.closeDialog()
     },
 
-    getScreenSize() {
+    getScreenSize: function() {
       let widthScreen = window.innerWidth
       // console.log(widthScreen)
 

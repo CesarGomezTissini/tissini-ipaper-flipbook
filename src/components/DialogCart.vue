@@ -15,7 +15,7 @@
     >
       <v-card>
         <v-container>
-          <v-row justify="center" no-gutters>
+          <v-row justify="center" no-gutters style="margin-bottom: 50px">
             <v-col :cols="12" :sm="6" :md="5" :lg="4">
               <!-- <v-icon color="grey lighten-3" dark>mdi-arrow-left</v-icon> -->
               <v-btn fab dark small color="primary" @click="closeDialog">
@@ -32,13 +32,13 @@
                     :index="index"
                     :key="index"
                     @open="openDialogProduct"
-                    @remove-product="removeProduct"
                   />
                 </template>
               </v-list>
               <v-footer color="green lighten-5" fixed>
                 <v-col class="text-center" cols="12">
                   <v-btn
+                    :disabled="cart.length == 0"
                     outlined
                     rounded
                     color="green"
@@ -96,11 +96,6 @@ export default {
     },
     closeDialog: function() {
       this.dialogCart = false
-    },
-    removeProduct: function(index) {
-      let cart = JSON.parse(JSON.stringify(this.cart))
-      cart.splice(index, 1)
-      this.$store.commit('updateCart', cart)
     },
     sendForWhatsApp: function() {
       let bodyMessage = `Hola {{customer.name}}, este es mi orden desde TISSINI iPaper:\n\n`

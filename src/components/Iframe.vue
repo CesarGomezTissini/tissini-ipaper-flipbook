@@ -69,7 +69,10 @@ import axios from 'axios'
 import DialogProduct from './DialogProduct'
 import DialogCart from './DialogCart'
 import { mapState, mapGetters } from 'vuex'
+
+import products from '@/utils/products'
 export default {
+  mixins: [products],
   data: () => ({
     iframeLoading: true,
     dialogProduct: false,
@@ -99,11 +102,7 @@ export default {
       this.iframeLoading = false
     },
     itemDetail: function($event) {
-      let product = $event.detail.data.productId
-
-      let productFound = this.catalogProducts.find(
-        element => element.reference == product
-      )
+      let productFound = this.findProduct($event.detail.data.productId)
 
       if (productFound) {
         this.product = productFound
@@ -140,6 +139,6 @@ export default {
   bottom: 0;
   right: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 10rem);
 }
 </style>

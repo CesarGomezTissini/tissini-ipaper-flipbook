@@ -47,7 +47,7 @@
           class="ml-0 elevation-0"
           color="red"
           style="color: white; width: 50%; border-radius: 0 0 5px 0"
-          @click="removeProduct"
+          @click="removeProduct(index)"
         >
           <v-icon class="mr-2">mdi-delete</v-icon>Eliminar
         </v-btn>
@@ -60,7 +60,11 @@
 import axios from 'axios'
 
 import { mapState } from 'vuex'
+
+import products from '@/utils/products'
+
 export default {
+  mixins: [products],
   props: {
     product: {
       type: Object,
@@ -77,8 +81,11 @@ export default {
   },
   methods: {
     editProduct: function() {
-      let productFound = this.catalogProducts.find(
-        element => element.reference == this.product.reference
+      let productFound = this.findProduct(
+        this.product.reference,
+        'reference',
+        'find',
+        this.catalogProducts
       )
 
       if (productFound) {
@@ -86,24 +93,9 @@ export default {
         productFound['quantity'] = this.cart[this.index].quantity
         this.$emit('open', productFound)
       } else {
-        const api = 'https://api.tissini.app/api/v1/product/searchall/'
-        const token =
-          'AFZdgWRAzSb6VXmXmTwjR7gCHGEtLZzsOwUjtCovMma4sCeH5kYQpoo3qpKUFVPyUPDmTfxSq94tE3gM'
-        axios
-          .get(api + this.product.reference, {
-            headers: { Authorization: `Bearer ${token}` }
-          })
-          .then(res => {
-            productFound = res.data[0]
-            productFound['indexSize'] = this.cart[this.index].indexSize
-            productFound['quantity'] = this.cart[this.index].quantity
-            this.$emit('open', productFound)
-          })
-          .catch(error => error)
+        this.removeProduct(this.index)
+        alert('Este producto no tiene unidades en ninguna de sus tallas.')
       }
-    },
-    removeProduct: function() {
-      this.$emit('remove-product', this.index)
     }
   }
 }
