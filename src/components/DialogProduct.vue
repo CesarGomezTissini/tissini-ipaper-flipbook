@@ -142,7 +142,7 @@ export default {
   },
   watch: {
     dialogProduct: function(value) {
-      console.log(this.product)
+      // console.log(this.product)
       if (value && this.product) {
         if (typeof this.product.indexSize !== 'undefined')
           this.variant = this.product.indexSize
