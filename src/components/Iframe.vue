@@ -152,5 +152,10 @@ export default {
     width: 100%;
     height: calc(100% - 10rem);
   }
+
+  ::v-deep .v-btn--absolute.v-btn--bottom,
+  ::v-deep .v-btn--fixed.v-btn--bottom {
+    bottom: 56px;
+  }
 }
 </style>

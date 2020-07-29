@@ -18,37 +18,57 @@
           <v-row justify="center" no-gutters style="margin-bottom: 50px">
             <v-col :cols="12" :sm="6" :md="5" :lg="4">
               <!-- <v-icon color="grey lighten-3" dark>mdi-arrow-left</v-icon> -->
-              <v-btn fab dark small color="primary" @click="closeDialog">
-                <v-icon color="grey lighten-3" dark>mdi-arrow-left</v-icon>
-              </v-btn>
-              <h2 class="mb-3">
-                Productos Añadidos
-              </h2>
-              <v-list three-line class="my-1 py-1">
-                <v-divider></v-divider>
-                <template v-for="(cartProduct, index) in cart">
-                  <product-cart
-                    :product="cartProduct"
-                    :index="index"
-                    :key="index"
-                    @open="openDialogProduct"
-                  />
-                </template>
-              </v-list>
-              <v-footer color="green lighten-5" fixed>
-                <v-col class="text-center" cols="12">
-                  <v-btn
-                    :disabled="cart.length == 0"
-                    outlined
-                    rounded
-                    color="green"
-                    @click="sendForWhatsApp"
-                  >
-                    <v-icon dark class="mr-2">mdi-whatsapp</v-icon>
-                    Enviar por WhatsApp
+
+              <div v-if="cart.length > 0">
+                <v-toolbar dense class="elevation-0">
+                  <v-btn icon x-large @click="closeDialog">
+                    <v-icon color="primary" dark>mdi-arrow-left</v-icon>
                   </v-btn>
-                </v-col>
-              </v-footer>
+                  <v-toolbar-title>Productos Añadidos</v-toolbar-title>
+                </v-toolbar>
+
+                <v-list three-line class="my-1 py-1">
+                  <template v-for="(cartProduct, index) in cart">
+                    <product-cart
+                      :product="cartProduct"
+                      :index="index"
+                      :key="index"
+                      @open="openDialogProduct"
+                    />
+                  </template>
+                </v-list>
+                <v-footer color="green lighten-5" fixed>
+                  <v-col class="text-center" cols="12">
+                    <v-btn
+                      :disabled="cart.length == 0"
+                      outlined
+                      rounded
+                      color="green"
+                      @click="sendForWhatsApp"
+                    >
+                      <v-icon dark class="mr-2">mdi-whatsapp</v-icon>
+                      Enviar por WhatsApp
+                    </v-btn>
+                  </v-col>
+                </v-footer>
+              </div>
+              <v-container v-else>
+                <v-row>
+                  <v-col :cols="12" class="text-center">
+                    <v-row justify="center" align="center">
+                      <v-img :src="emptyCart" />
+                      <h3 class="mb-5">
+                        Parece que no hay productos en el carrito aún. Qué tal
+                        si empezamos a agregar?
+                      </h3>
+
+                      <v-btn @click="dialogCart = false" rounded color="primary"
+                        >Ir al catálogo</v-btn
+                      >
+                    </v-row>
+                  </v-col>
+                </v-row>
+              </v-container>
             </v-col>
           </v-row>
         </v-container>
@@ -61,6 +81,8 @@
 import ProductCart from '@/components/ProductCart'
 import DialogProduct from '@/components/DialogProduct'
 
+import empty_cart from '@/assets/empty_cart.png'
+
 import { mapState, mapGetters } from 'vuex'
 export default {
   props: {
@@ -70,7 +92,8 @@ export default {
     return {
       product: null,
       dialogProduct: false,
-      origin: null
+      origin: null,
+      emptyCart: empty_cart
     }
   },
   computed: {
