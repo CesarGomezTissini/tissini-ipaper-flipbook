@@ -139,6 +139,18 @@ export default {
   bottom: 0;
   right: 0;
   width: 100%;
-  height: calc(100% - 10rem);
+  height: 100%;
+}
+
+@media screen and (max-device-width: 600px) {
+  .responsive-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: calc(100% - 10rem);
+  }
 }
 </style>
