@@ -31,12 +31,7 @@
             >
             </iframe>
           </v-container>
-          <!-- </div> -->
         </v-row>
-        <!-- <v-btn @click="searchPage">
-          Página
-        </v-btn>
-        <v-text-field v-model="page" label="Pagina"></v-text-field> -->
       </v-col>
     </v-row>
 
@@ -47,7 +42,8 @@
         dark
         fixed
         bottom
-        color="pink lighten-2"
+        bordered
+        color="primary"
         class="elevation-7"
         @click="openDialogCart"
         v-if="!this.iframeLoading"
@@ -55,8 +51,8 @@
         <v-badge
           :content="countProductsFromCart"
           :value="countProductsFromCart"
-          color="pink"
-          style="margin-top: -60px; left: 10px; font-size: 20px"
+          color="primary"
+          style="margin-top: -40px; left: 10px; font-size: 20px"
         >
         </v-badge>
       </v-btn>
@@ -100,6 +96,7 @@ export default {
         onPageElementClick: { preventDefault: true }
       })
       this.iframeLoading = false
+      this.$emit('loaded')
     },
     itemDetail: function($event) {
       let productFound = this.findProduct($event.detail.data.productId)
@@ -118,6 +115,7 @@ export default {
       this.snackbar = true
     },
     openDialogCart: function() {
+      this.$store.commit('setCartIsNotVisitedYet', false)
       this.dialogCart = true
     }
   }
@@ -139,23 +137,11 @@ export default {
   bottom: 0;
   right: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 8rem);
 }
 
-@media screen and (max-device-width: 600px) {
-  .responsive-iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: calc(100% - 10rem);
-  }
-
-  ::v-deep .v-btn--absolute.v-btn--bottom,
-  ::v-deep .v-btn--fixed.v-btn--bottom {
-    bottom: 56px;
-  }
+::v-deep .v-btn--absolute.v-btn--bottom,
+.v-btn--fixed.v-btn--bottom {
+  bottom: 54px;
 }
 </style>

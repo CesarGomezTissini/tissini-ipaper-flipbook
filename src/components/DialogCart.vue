@@ -17,11 +17,10 @@
         <v-container>
           <v-row justify="center" no-gutters style="margin-bottom: 50px">
             <v-col :cols="12" :sm="6" :md="5" :lg="4">
-              <!-- <v-icon color="grey lighten-3" dark>mdi-arrow-left</v-icon> -->
-
+              <cart-notification v-model="cartNotificator" />
               <div v-if="cart.length > 0">
                 <v-toolbar dense class="elevation-0">
-                  <v-btn icon x-large @click="closeDialog">
+                  <v-btn :ripple="false" icon x-large @click="closeDialog">
                     <v-icon color="primary" dark>mdi-arrow-left</v-icon>
                   </v-btn>
                   <v-toolbar-title>Productos Añadidos</v-toolbar-title>
@@ -80,10 +79,11 @@
 <script>
 import ProductCart from '@/components/ProductCart'
 import DialogProduct from '@/components/DialogProduct'
+import CartNotification from '@/components/CartNotification'
 
 import empty_cart from '@/assets/empty_cart.png'
 
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   props: {
     value: Boolean
@@ -97,7 +97,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['cart']),
+    ...mapState(['cart', 'removedProductsFromCart']),
     dialogCart: {
       get() {
         return this.value
@@ -105,11 +105,18 @@ export default {
       set(value) {
         this.$emit('input', value)
       }
+    },
+    cartNotificator: {
+      get() {
+        return this.removedProductsFromCart.length > 0
+      },
+      set() {}
     }
   },
   components: {
     ProductCart,
-    DialogProduct
+    DialogProduct,
+    CartNotification
   },
   methods: {
     openDialogProduct: function(product) {
@@ -141,3 +148,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+::v-deep .v-toolbar__content {
+  padding: 4px 0px;
+}
+</style>

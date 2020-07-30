@@ -10,10 +10,27 @@
       <v-card v-if="!productDetail">
         <h1>no hay</h1>
       </v-card>
-      <v-card v-else>
+      <v-card :height="containerHeight" v-else>
         <v-row justify="center" no-gutters>
           <v-col :cols="12" :sm="5" :md="4" :lg="3">
             <v-card elevation="0">
+              <v-row
+                align="start"
+                class="lightbox white--text ma-0 fill-height"
+              >
+                <v-btn
+                  right
+                  fab
+                  fixed
+                  dark
+                  small
+                  color="primary"
+                  @click.stop="closeDialog"
+                  style="top: 10px;"
+                >
+                  <v-icon dark>mdi-close</v-icon>
+                </v-btn>
+              </v-row>
               <v-carousel
                 :show-arrows="productDetail.images.length > 1"
                 v-model="carrousel"
@@ -29,23 +46,6 @@
                     contain
                     :src="'https://api.tissini.app' + image.url"
                   >
-                    <v-row
-                      align="start"
-                      class="lightbox white--text ma-1 fill-height"
-                    >
-                      <v-col class="text-right">
-                        <v-btn
-                          right
-                          fab
-                          dark
-                          small
-                          color="primary"
-                          @click.stop="closeDialog"
-                        >
-                          <v-icon dark>mdi-close</v-icon>
-                        </v-btn>
-                      </v-col>
-                    </v-row>
                   </v-img>
                 </v-carousel-item>
               </v-carousel>
@@ -61,7 +61,7 @@
                 </v-row>
               </v-card-title>
               <v-card-text>
-                <span>Tallas</span>
+                <span>Tallas disponibles</span>
                 <v-chip-group
                   v-model="variant"
                   active-class="pink lighten-2 white--text bordered"
@@ -93,7 +93,11 @@
                       @click="addUpdateProduct"
                     >
                       <v-icon dark class="mr-2">mdi-cart-arrow-down</v-icon>
-                      AGREGAR AL CARRITO
+                      {{
+                        origin != 'cart'
+                          ? 'AGREGAR AL CARRITO'
+                          : 'Actualizar producto'
+                      }}
                     </v-btn>
                   </v-col>
                 </v-footer>
@@ -131,7 +135,8 @@ export default {
       quantities: [],
       variantSelected: null,
       carrousel: 0,
-      carrouselHeight: 300
+      carrouselHeight: 300,
+      containerHeight: 'auto'
     }
   },
   created() {
@@ -142,7 +147,6 @@ export default {
   },
   watch: {
     dialogProduct: function(value) {
-      // console.log(this.product)
       if (value && this.product) {
         if (typeof this.product.indexSize !== 'undefined')
           this.variant = this.product.indexSize
@@ -257,30 +261,23 @@ export default {
 
     getScreenSize: function() {
       let widthScreen = window.innerWidth
-      // console.log(widthScreen)
 
       if (widthScreen <= 320) {
         this.carrouselHeight = 320
-        // this.itemCardSize = 390
+      } else if (widthScreen >= 375 && widthScreen <= 399) {
+        this.carrouselHeight = 370
+      } else if (widthScreen >= 400 && widthScreen <= 439) {
+        this.carrouselHeight = 410
+      } else if (widthScreen > 440 && widthScreen < 599) {
+        this.carrouselHeight = 450
+        this.containerHeight = 750
+      } else if (widthScreen >= 768 && widthScreen <= 1023) {
+        this.carrouselHeight = 320
+      } else if (widthScreen >= 1024 && widthScreen <= 1440) {
+        this.carrouselHeight = 340
+        this.containerHeight = 'auto'
       } else {
-        if (widthScreen >= 375 && widthScreen <= 399) {
-          this.carrouselHeight = 355
-          // this.itemCardSize = 470
-        } else {
-          if (widthScreen >= 400 && widthScreen <= 439) {
-            this.carrouselHeight = 425
-            // this.itemCardSize = 500
-          } else if (widthScreen > 440 && widthScreen < 599) {
-            this.carrouselHeight = 500
-            // this.itemCardSize = 580
-          } else if (widthScreen >= 768 && widthScreen <= 1366) {
-            this.carrouselHeight = 330
-            // this.itemCardSize = 410
-          } else {
-            this.carrouselHeight = 360
-            // this.itemCardSize = 450
-          }
-        }
+        this.carrouselHeight = 360
       }
     },
     closeDialog: function() {
