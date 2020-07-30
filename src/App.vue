@@ -2,6 +2,7 @@
   <v-app>
     <v-main>
       <v-snackbar
+        class="cart__notifier"
         :timeout="-1"
         color="warning"
         v-model="snackBar"
@@ -61,22 +62,22 @@ export default {
 </script>
 
 <style scoped>
-::v-deep .v-snack {
+::v-deep .v-snack.cart__notifier {
   width: 200px;
   top: -40px;
 }
 
-::v-deep .v-snack__content {
+::v-deep .cart__notifier .v-snack__content {
   padding-left: 70px;
   padding-right: 0px;
 }
 
 @media screen and (max-width: 320px) {
-  ::v-deep .v-snack {
+  ::v-deep .v-snack.cart__notifier {
     width: 140px;
   }
 
-  ::v-deep .v-snack__content {
+  ::v-deep .cart__notifier .v-snack__content {
     padding-left: 100px;
     padding-right: 0px;
     font-size: 12px;

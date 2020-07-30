@@ -33,6 +33,13 @@ export default new Vuex.Store({
       state.cart.forEach(element => (count += element.quantity))
 
       return count
+    },
+    totalCart: state => {
+      let sum = 0
+
+      state.cart.forEach(element => (sum += element.quantity * element.price))
+
+      return Number(sum.toFixed(2))
     }
   },
   actions: {

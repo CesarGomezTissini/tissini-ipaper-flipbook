@@ -12,7 +12,7 @@
           <v-divider class="mb-1 white--text" dark></v-divider>
 
           <v-list-item-subtitle v-if="product.size !== 'catalog'"
-            ><strong>Tamaño:</strong> {{ product.size || 'Único' }}
+            ><strong>Talla:</strong> {{ product.size || 'Único' }}
           </v-list-item-subtitle>
 
           <v-list-item-subtitle

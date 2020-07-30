@@ -1,8 +1,8 @@
 <template>
   <v-alert
-    v-if="removedProductsFromCart.length > 0"
     border="top"
     colored-border
+    text
     color="warning"
     elevation="2"
     dismissible
@@ -28,6 +28,9 @@
 import { mapState } from 'vuex'
 
 export default {
+  props: {
+    value: Boolean
+  },
   data() {
     return {}
   },

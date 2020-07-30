@@ -25,7 +25,7 @@
                   dark
                   small
                   color="primary"
-                  @click.stop="closeDialog"
+                  @click="closeDialog"
                   style="top: 10px;"
                 >
                   <v-icon dark>mdi-close</v-icon>
@@ -46,6 +46,18 @@
                     contain
                     :src="'https://api.tissini.app' + image.url"
                   >
+                    <template v-slot:placeholder>
+                      <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                      >
+                        <v-progress-circular
+                          indeterminate
+                          color="primary"
+                        ></v-progress-circular>
+                      </v-row>
+                    </template>
                   </v-img>
                 </v-carousel-item>
               </v-carousel>
@@ -67,7 +79,7 @@
                   active-class="pink lighten-2 white--text bordered"
                 >
                   <v-chip
-                    v-for="(variant, index) in productDetail.variants"
+                    v-for="(variant, index) in sizes"
                     :key="index"
                     :disabled="!Boolean(variant.quantity)"
                     :color="Boolean(variant.quantity) ? 'pink lighten-5' : ''"
@@ -129,7 +141,6 @@ export default {
   },
   data: function() {
     return {
-      name: 'info-dialog',
       variant: null,
       quantitySelected: 1,
       quantities: [],
@@ -147,12 +158,11 @@ export default {
   },
   watch: {
     dialogProduct: function(value) {
+      console.log(this.origin)
       if (value && this.product) {
-        if (typeof this.product.indexSize !== 'undefined')
-          this.variant = this.product.indexSize
-
         if (this.origin == 'cart') {
           this.quantitySelected = this.product.quantity
+          this.variant = this.product.indexSize
         }
       }
     },
@@ -198,6 +208,9 @@ export default {
         return this.productDetail.price
       },
       set(value) {}
+    },
+    sizes: function() {
+      return this.sortingSizes()
     }
   },
   methods: {
@@ -254,6 +267,7 @@ export default {
               this.$emit('showSnackbar')
               this.closeDialog()
             } else {
+              console.log(product.quantity)
               if (product.quantity - cart[index].quantity <= 0) {
                 alert(`No puedes agregar más cantidades de este producto.`)
               } else if (product.quantity - cart[index].quantity > 0) {
@@ -296,6 +310,29 @@ export default {
       } else {
         this.carrouselHeight = 360
       }
+    },
+    sortingSizes: function() {
+      const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL']
+      let variants = this.productDetail.variants.sort((a, b) => {
+        const aIndex = sizes.indexOf(a.size.toUpperCase())
+        const bIndex = sizes.indexOf(b.size.toUpperCase())
+
+        if (aIndex < 0) {
+          if (!isNaN(a.size) && !isNaN(b.size)) {
+            return Number(a.size) - Number(b.size)
+          }
+          return !isNaN(a.size) ? -1 : 1
+        }
+        if (bIndex < 0) {
+          if (!isNaN(a.size) && !isNaN(b.size)) {
+            return Number(a.size) - Number(b.size)
+          }
+          return !isNaN(b.size) ? -1 : 1
+        }
+        return aIndex - bIndex
+      })
+
+      return variants
     },
     closeDialog: function() {
       this.variant = null

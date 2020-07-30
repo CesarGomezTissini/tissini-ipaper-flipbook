@@ -36,6 +36,9 @@
                     />
                   </template>
                 </v-list>
+                <h2 class="text-right">
+                  Total: <span class="primary--text">${{ totalCart }}</span>
+                </h2>
                 <v-footer color="green lighten-5" fixed>
                   <v-col class="text-center" cols="12">
                     <v-btn
@@ -83,7 +86,7 @@ import CartNotifier from '@/components/CartNotifier'
 
 import empty_cart from '@/assets/empty_cart.png'
 
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   props: {
     value: Boolean
@@ -98,6 +101,7 @@ export default {
   },
   computed: {
     ...mapState(['cart', 'removedProductsFromCart']),
+    ...mapGetters(['totalCart']),
     dialogCart: {
       get() {
         return this.value
@@ -110,7 +114,9 @@ export default {
       get() {
         return this.removedProductsFromCart.length > 0
       },
-      set() {}
+      set(value) {
+        this.$emit('input', value)
+      }
     }
   },
   components: {
@@ -125,14 +131,22 @@ export default {
       this.dialogProduct = true
     },
     closeDialog: function() {
+      this.cartNotifier = false
       this.dialogCart = false
     },
     sendForWhatsApp: function() {
-      let bodyMessage = `Hola {{customer.name}}, este es mi orden desde TISSINI iPaper:\n\n`
+      let bodyMessage = `Me gustaría ordenar esto:\n\n`
 
       this.cart.forEach(product => {
-        bodyMessage += `*Nombre*: ${product.name}\n*SKU*: ${product.reference}\n*Precio*: $${product.price}\n*Cantidad*: ${product.quantity}\n------------------------------\n`
+        bodyMessage += `*Nombre*: ${product.name}\n`
+        bodyMessage += `*SKU*: ${product.sku}\n`
+        bodyMessage += `*Talla*: ${product.size}\n`
+        bodyMessage += `*Precio*: $${product.price}\n`
+        bodyMessage += `*Cantidad*: ${product.quantity}\n`
+        bodyMessage += `-----------------------------------\n`
       })
+
+      bodyMessage += `\n*Total*: *$${this.totalCart}*`
 
       if ('share' in navigator) {
         navigator.share({
