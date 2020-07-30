@@ -27,7 +27,7 @@
         <v-col :cols="5" class="pa-0">
           <v-img
             contain
-            :src="'https://api.tissini.app' + product.image"
+            :src="URL + product.image"
             width="180"
             class="product-image"
             :height="130"
@@ -62,6 +62,7 @@ import axios from 'axios'
 import { mapState } from 'vuex'
 
 import products from '@/utils/products'
+import { URL } from '@/utils/http'
 
 export default {
   mixins: [products],
@@ -74,6 +75,11 @@ export default {
     index: {
       type: Number,
       required: true
+    }
+  },
+  data() {
+    return {
+      URL: URL
     }
   },
   computed: {

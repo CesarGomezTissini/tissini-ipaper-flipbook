@@ -41,11 +41,7 @@
                   v-for="(image, i) in productDetail.images"
                   :key="i"
                 >
-                  <v-img
-                    width="100%"
-                    contain
-                    :src="'https://api.tissini.app' + image.url"
-                  >
+                  <v-img width="100%" contain :src="URL + image.url">
                     <template v-slot:placeholder>
                       <v-row
                         class="fill-height ma-0"
@@ -126,6 +122,8 @@
 import { mapState, mapGetters } from 'vuex'
 import products from '@/utils/products'
 
+import { URL } from '@/utils/http'
+
 export default {
   mixins: [products],
   props: {
@@ -141,6 +139,7 @@ export default {
   },
   data: function() {
     return {
+      URL: URL,
       variant: null,
       quantitySelected: 1,
       quantities: [],
@@ -158,7 +157,6 @@ export default {
   },
   watch: {
     dialogProduct: function(value) {
-      console.log(this.origin)
       if (value && this.product) {
         if (this.origin == 'cart') {
           this.quantitySelected = this.product.quantity
@@ -267,7 +265,6 @@ export default {
               this.$emit('showSnackbar')
               this.closeDialog()
             } else {
-              console.log(product.quantity)
               if (product.quantity - cart[index].quantity <= 0) {
                 alert(`No puedes agregar más cantidades de este producto.`)
               } else if (product.quantity - cart[index].quantity > 0) {

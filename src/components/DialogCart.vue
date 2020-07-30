@@ -93,6 +93,7 @@ export default {
   },
   data: function() {
     return {
+      URL: URL,
       product: null,
       dialogProduct: false,
       origin: null,
@@ -152,7 +153,9 @@ export default {
         navigator.share({
           title: document.title,
           text: bodyMessage,
-          url: 'whatsapp://send?text=' + encodeURIComponent(bodyMessage)
+          url:
+            'https://api.whatsapp.com/send?text=' +
+            encodeURIComponent(bodyMessage)
         })
       } else {
         location.href =
