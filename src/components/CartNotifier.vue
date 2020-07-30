@@ -6,7 +6,7 @@
     color="warning"
     elevation="2"
     dismissible
-    v-model="cartNotificator"
+    v-model="cartNotifier"
   >
     Hemos detectado novedades en tu carrito:
 
@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     ...mapState(['removedProductsFromCart']),
-    cartNotificator: {
+    cartNotifier: {
       get() {
         return this.value
       },

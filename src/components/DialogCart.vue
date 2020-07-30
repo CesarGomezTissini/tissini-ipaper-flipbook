@@ -17,7 +17,7 @@
         <v-container>
           <v-row justify="center" no-gutters style="margin-bottom: 50px">
             <v-col :cols="12" :sm="6" :md="5" :lg="4">
-              <cart-notification v-model="cartNotificator" />
+              <cart-notifier v-model="cartNotifier" />
               <div v-if="cart.length > 0">
                 <v-toolbar dense class="elevation-0">
                   <v-btn :ripple="false" icon x-large @click="closeDialog">
@@ -79,7 +79,7 @@
 <script>
 import ProductCart from '@/components/ProductCart'
 import DialogProduct from '@/components/DialogProduct'
-import CartNotification from '@/components/CartNotification'
+import CartNotifier from '@/components/CartNotifier'
 
 import empty_cart from '@/assets/empty_cart.png'
 
@@ -106,7 +106,7 @@ export default {
         this.$emit('input', value)
       }
     },
-    cartNotificator: {
+    cartNotifier: {
       get() {
         return this.removedProductsFromCart.length > 0
       },
@@ -116,7 +116,7 @@ export default {
   components: {
     ProductCart,
     DialogProduct,
-    CartNotification
+    CartNotifier
   },
   methods: {
     openDialogProduct: function(product) {

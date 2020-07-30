@@ -8,17 +8,18 @@ export default {
     findProduct: function(
       productToSearch,
       propToCompare = 'reference',
-      action = 'find',
       array = this.catalogProducts
     ) {
       let result = {
-        find: array.find(element => element[propToCompare] == productToSearch),
-        findIndex: array.findIndex(
+        product: array.find(
+          element => element[propToCompare] == productToSearch
+        ),
+        index: array.findIndex(
           element => element[propToCompare] == productToSearch
         )
       }
 
-      return result[action]
+      return result
     },
     removeProduct: function(index) {
       let cart = JSON.parse(JSON.stringify(this.cart))

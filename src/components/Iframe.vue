@@ -46,7 +46,7 @@
         color="primary"
         class="elevation-7"
         @click="openDialogCart"
-        v-if="!this.iframeLoading"
+        v-if="!this.iframeLoading && cart.length > 0"
         ><v-icon dark>mdi-cart</v-icon>
         <v-badge
           :content="countProductsFromCart"
@@ -83,7 +83,7 @@ export default {
     DialogCart
   },
   computed: {
-    ...mapState(['catalogProducts']),
+    ...mapState(['catalogProducts', 'cart']),
     ...mapGetters(['countProductsFromCart'])
   },
   methods: {
@@ -99,7 +99,9 @@ export default {
       this.$emit('loaded')
     },
     itemDetail: function($event) {
-      let productFound = this.findProduct($event.detail.data.productId)
+      let { product: productFound } = this.findProduct(
+        $event.detail.data.productId
+      )
 
       if (productFound) {
         this.product = productFound

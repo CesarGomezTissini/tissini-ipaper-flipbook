@@ -81,10 +81,9 @@ export default {
   },
   methods: {
     editProduct: function() {
-      let productFound = this.findProduct(
+      let { product: productFound } = this.findProduct(
         this.product.reference,
         'reference',
-        'find',
         this.catalogProducts
       )
 

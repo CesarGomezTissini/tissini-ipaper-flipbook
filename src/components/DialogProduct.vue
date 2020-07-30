@@ -202,7 +202,7 @@ export default {
   },
   methods: {
     addUpdateProduct: function() {
-      let product = {
+      let productToAdd = {
         indexSize: this.variant,
         size: this.variantSelected.size,
         quantity: this.quantitySelected,
@@ -215,7 +215,7 @@ export default {
             : null,
         sku: this.variantSelected.sku,
         id: this.variantSelected.id,
-        category: this.productDetail.category.category,
+        category: this.productDetail.category,
         variants: this.productDetail.variants,
         product_id: this.productDetail.id
       }
@@ -224,10 +224,9 @@ export default {
 
       if (this.cart.length > 0) {
         if (this.origin == 'cart') {
-          let index = this.findProduct(
+          let { index } = this.findProduct(
             this.product.reference,
             undefined,
-            'findIndex',
             this.cart
           )
 
@@ -237,26 +236,44 @@ export default {
           cart[index].indexSize = this.variant
 
           this.$store.commit('updateCart', cart)
+          this.$emit('showSnackbar')
+          this.closeDialog()
         } else {
-          let index = this.findProduct(
+          let { index, product } = this.findProduct(
             this.variantSelected.id,
             'id',
-            'findIndex',
-            cart
+            this.cart
           )
 
-          index >= 0
-            ? (cart[index].quantity += this.quantitySelected)
-            : cart.push(product)
+          if (index >= 0) {
+            let checkedQuantity = cart[index].quantity + this.quantitySelected
 
-          this.$store.commit('updateCart', cart)
+            if (checkedQuantity <= product.quantity) {
+              cart[index].quantity += this.quantitySelected
+              this.$store.commit('updateCart', cart)
+              this.$emit('showSnackbar')
+              this.closeDialog()
+            } else {
+              if (product.quantity - cart[index].quantity <= 0) {
+                alert(`No puedes agregar más cantidades de este producto.`)
+              } else if (product.quantity - cart[index].quantity > 0) {
+                alert(
+                  `Sólo puedes agregar ${product.quantity -
+                    cart[index].quantity} unidades de este producto.`
+                )
+              }
+            }
+          } else {
+            this.$store.commit('pushToCart', productToAdd)
+            this.$emit('showSnackbar')
+            this.closeDialog()
+          }
         }
       } else {
-        this.$store.commit('pushToCart', product)
+        this.$store.commit('pushToCart', productToAdd)
+        this.$emit('showSnackbar')
+        this.closeDialog()
       }
-
-      this.$emit('showSnackbar')
-      this.closeDialog()
     },
 
     getScreenSize: function() {
